@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+		<style>
+		.ck-editor__editable_inline {
+		    min-height: 500px;
+		}
+		</style>
+
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script>
+    </head>
+    <body>
+    	<p>CKEditor 5 - Spacebar bug when used with RequireJS</p>
+
+		<p>
+			<a href="/local">LOCAL (doesn't work)</a>
+			|
+			<a href="/remote">REMOTE (does work)</a>
+		</p>
+
+		<div id="editor"></div>    	
+
+		<script>
+		requirejs.config({
+		  appDir: ".",
+		  baseUrl: "js",
+		  paths: {
+		  	{% if local %}
+		  		ckeditor: '../js/ckeditor_19_0_0.min'
+		  	{% else %}
+		  		ckeditor: '//cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor'
+		  	{% endif %}
+		  }
+		});
+		
+		require(['ckeditor'], function(CKEditor) {
+		  CKEditor
+		    .create(document.querySelector('#editor'))
+		    .then(editor => {
+		      this.editor = editor;
+		    })
+		    .catch(error => {
+		      console.error(error);
+		    });
+		});
+		</script>
+
+    </body>
+</html>
